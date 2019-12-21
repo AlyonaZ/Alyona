@@ -25,50 +25,50 @@ for event in longpoll.listen():
                 today = BeautifulSoup(today.text, "html.parser")
                 today = today.find("p", id = "digital_date")
                 today = today.getText()
-                if request[:len(request)-11] == 'МХАТ':
-                    theatre = requests.get('https://mxat-teatr.com/afisha/')
-                elif request[:len(request)-11] == 'Ленком':
-                    theatre = requests.get('https://len.theater/?utm_medium=cpc&utm_source=yandex&utm_campaign=obshaya_yandex&utm_term=%D0%BB%D0%B5%D0%BD%D0%BA%D0%BE%D0%BC%20%D1%82%D0%B5%D0%B0%D1%82%D1%80%20%D0%BE%D1%84%D0%B8%D1%86%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D1%81%D0%B0%D0%B9%D1%82%20%D0%B0%D1%84%D0%B8%D1%88%D0%B0&utm_content=premium.1&utm_campaign_id=37966739&utm_group_id=3532701385&utm_term_id=14713448280&yclid=7554160873314737676')
-                if int(request[-4:]) > int(today[-4:]) and (int(request[-7:-5]) > int(today[3:5]) or int(request[-7:-5]) == int(today[3:5]) and int(request[-10:-8]) >= int(today[:2])):
-                    write_msg(event.user_id, "Прошу прощения, я не вижу так далеко. Как говорится, близорукость не порок")
-                elif int(request[-4:]) < int(today[-4:]) or int(request[-4:]) == int(today[-4:]) and int(request[-7:-5]) < int(today[3:5]) or int(request[-4:]) == int(today[-4:]) and int(request[-7:-5]) == int(today[3:5]) and int(request[-10:-8]) < int(today[:2]):
-                    write_msg(event.user_id, "Я помню это чудное мгновенье. Но прошлого не вернёшь. Может, посмотришь что-нибудь на будущее?")
+                date = request[-10:-8]
+                t = 0
+                if request[-7:-5] == '01' and int(request[-10:-8]) <= 31:
+                    date += 'Янв'
+                elif request[-7:-5] == '02' and (int(request[-10:-8]) <= 28 and int(request[-4:]) % 4 != 0 or int(request[-10:-8]) <= 29 and int(request[-4:]) % 4 == 0):
+                    date += 'Фев'
+                elif request[-7:-5] == '03' and int(request[-10:-8]) <= 31:
+                    date += 'Мар'
+                elif request[-7:-5] == '04' and int(request[-10:-8]) <= 30:
+                    date += 'Апр'
+                elif request[-7:-5] == '05' and int(request[-10:-8]) <= 31:
+                    date += 'Май'
+                elif request[-7:-5] == '06' and int(request[-10:-8]) <= 30:
+                    date += 'Июн'
+                elif request[-7:-5] == '07' and int(request[-10:-8]) <= 31:
+                    date += 'Июл'
+                elif request[-7:-5] == '08' and int(request[-10:-8]) <= 31:
+                    date += 'Авг'
+                elif request[-7:-5] == '09' and int(request[-10:-8]) <= 30:
+                    date += 'Сен'
+                elif request[-7:-5] == '10' and int(request[-10:-8]) <= 31:
+                    date += 'Окт'
+                elif request[-7:-5] == '11' and int(request[-10:-8]) <= 30:
+                    date += 'Ноя'
+                elif request[-7:-5] == '12' and int(request[-10:-8]) <= 31:
+                    date += 'Дек'
                 else:
-                    k = BeautifulSoup(theatre.text, "html.parser")
-                    k1 = k.find_all("div", {"class": "ev_date"})
-                    k2 = k.find_all("div", {"class": "date__text inline-top"})
-                    k3 = k.find_all("div", {"class": "ev_date__time"})
-                    date = request[-10:-8]
-                    t = 0
-                    if request[-7:-5] == '01' and int(request[-10:-8]) <= 31:
-                        date += 'Янв'
-                    elif request[-7:-5] == '02' and (int(request[-10:-8]) <= 28 and int(request[-4:]) % 4 != 0 or int(request[-10:-8]) <= 29 and int(request[-4:]) % 4 == 0):
-                        date += 'Фев'
-                    elif request[-7:-5] == '03' and int(request[-10:-8]) <= 31:
-                        date += 'Мар'
-                    elif request[-7:-5] == '04' and int(request[-10:-8]) <= 30:
-                        date += 'Апр'
-                    elif request[-7:-5] == '05' and int(request[-10:-8]) <= 31:
-                        date += 'Май'
-                    elif request[-7:-5] == '06' and int(request[-10:-8]) <= 30:
-                        date += 'Июн'
-                    elif request[-7:-5] == '07' and int(request[-10:-8]) <= 31:
-                        date += 'Июл'
-                    elif request[-7:-5] == '08' and int(request[-10:-8]) <= 31:
-                        date += 'Авг'
-                    elif request[-7:-5] == '09' and int(request[-10:-8]) <= 30:
-                        date += 'Сен'
-                    elif request[-7:-5] == '10' and int(request[-10:-8]) <= 31:
-                        date += 'Окт'
-                    elif request[-7:-5] == '11' and int(request[-10:-8]) <= 30:
-                        date += 'Ноя'
-                    elif request[-7:-5] == '12' and int(request[-10:-8]) <= 31:
-                        date += 'Дек'
+                    t = 1
+                if t == 1:
+                    write_msg(event.user_id, "То ли ты не то написал, то ли я не так поняла. Может, попробуем ещё раз?")
+                else:
+                    if int(request[-4:]) > int(today[-4:]) and (int(request[-7:-5]) > int(today[3:5]) or int(request[-7:-5]) == int(today[3:5]) and int(request[-10:-8]) >= int(today[:2])):
+                        write_msg(event.user_id, "Прошу прощения, я не вижу так далеко. Как говорится, близорукость не порок")
+                    elif int(request[-4:]) < int(today[-4:]) or int(request[-4:]) == int(today[-4:]) and int(request[-7:-5]) < int(today[3:5]) or int(request[-4:]) == int(today[-4:]) and int(request[-7:-5]) == int(today[3:5]) and int(request[-10:-8]) < int(today[:2]):
+                        write_msg(event.user_id, "Я помню это чудное мгновенье. Но прошлого не вернёшь. Может, посмотришь что-нибудь на будущее?")
+                    if request[:len(request)-11] == 'МХАТ':
+                        theatre = requests.get('https://mxat-teatr.com/afisha/')
+                    elif request[:len(request)-11] == 'Ленком':
+                        theatre = requests.get('https://len.theater/?utm_medium=cpc&utm_source=yandex&utm_campaign=obshaya_yandex&utm_term=%D0%BB%D0%B5%D0%BD%D0%BA%D0%BE%D0%BC%20%D1%82%D0%B5%D0%B0%D1%82%D1%80%20%D0%BE%D1%84%D0%B8%D1%86%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D1%81%D0%B0%D0%B9%D1%82%20%D0%B0%D1%84%D0%B8%D1%88%D0%B0&utm_content=premium.1&utm_campaign_id=37966739&utm_group_id=3532701385&utm_term_id=14713448280&yclid=7554160873314737676')
                     else:
-                        t = 1
-                    if t == 1:
-                        write_msg(event.user_id, "То ли ты не то написал, то ли я не так поняла. Может, попробуем ещё раз?")
-                    else:
+                        k = BeautifulSoup(theatre.text, "html.parser")
+                        k1 = k.find_all("div", {"class": "ev_date"})
+                        k2 = k.find_all("div", {"class": "date__text inline-top"})
+                        k3 = k.find_all("div", {"class": "ev_date__time"})
                         n = 0
                         for i in range(len(k1)):
                             k1[i] = k1[i].getText()
