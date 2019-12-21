@@ -10,9 +10,8 @@ from bs4 import BeautifulSoup
 from vk_api.longpoll import VkLongPoll, VkEventType
 def write_msg(user_id, message):
     vk.method('messages.send', {'user_id': user_id, 'message': message, 'random_id': random.randint(0, 2048)})
-#token = os.environ.get('token')
-#bot.run(str(token))
-token = "2510043a6191f2796a42b3c3c9a7e85ba77c66c2c5636d087fe3be87b97f8cdab271bdeac986eabfecfe5"
+token = os.environ.get('bot-token')
+bot.run(str(token))
 vk = vk_api.VkApi(token=token)
 longpoll = VkLongPoll(vk)
 for event in longpoll.listen():
