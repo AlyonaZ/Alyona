@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from vk_api.longpoll import VkLongPoll, VkEventType
 def write_msg(user_id, message):
     vk.method('messages.send', {'user_id': user_id, 'message': message, 'random_id': random.randint(0, 2048)})
-token = ''
+token = '2510043a6191f2796a42b3c3c9a7e85ba77c66c2c5636d087fe3be87b97f8cdab271bdeac986eabfecfe5'
 vk = vk_api.VkApi(token=token)
 longpoll = VkLongPoll(vk)
 for event in longpoll.listen():
@@ -91,6 +91,7 @@ for event in longpoll.listen():
                 date = str(int(request[-10:-8]))
                 t = 0
                 if request[-4:] == '2019':
+                    date += ' декабря'
                     theatre = requests.get('http://www.maly.ru/afisha')
                 elif request[-7:-5] == '01' and int(request[-10:-8]) <= 31:
                     date += ' января'
