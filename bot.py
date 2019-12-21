@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from vk_api.longpoll import VkLongPoll, VkEventType
 def write_msg(user_id, message):
     vk.method('messages.send', {'user_id': user_id, 'message': message, 'random_id': random.randint(0, 2048)})
-token = ''
+token = '2510043a6191f2796a42b3c3c9a7e85ba77c66c2c5636d087fe3be87b97f8cdab271bdeac986eabfecfe5'
 vk = vk_api.VkApi(token=token)
 longpoll = VkLongPoll(vk)
 for event in longpoll.listen():
@@ -20,6 +20,8 @@ for event in longpoll.listen():
                 write_msg(event.user_id, """Привет, мой юный любитель искусства, я Надежда Викторовна, твой личный консультант по расписанию Малого театра, МХАТа и Ленкома. Напиши мне название театра и дату, когда ты хочешь его посетить. Например, "Малый театр 30.12.2019".""")
             elif request == "пока" or request == 'Пока':
                 write_msg(event.user_id, "Рада была пообщаться")
+            elif request == "начать" or request == 'Начать':
+                write_msg(event.user_id, """Если хочешь узнать о спектаклях, введи название театра и дату. Например, "Ленком 12.01.2020", или "МХАТ 03.02.2020", или "Малый театр 29.12.2019".""")
             elif request[:len(request)-11] == 'МХАТ' or request[:len(request)-11] == 'Ленком':
                 today = requests.get('http://www.xn--80aajbde2dgyi4m.xn--p1ai/')
                 today = BeautifulSoup(today.text, "html.parser")
