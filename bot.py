@@ -87,56 +87,56 @@ for event in longpoll.listen():
                 today = BeautifulSoup(today.text, "html.parser")
                 today = today.find("p", id = "digital_date")
                 today = today.getText()
-                if int(request[-4:]) > int(today[-4:]) and (int(request[-7:-5]) > int(today[3:5]) or int(request[-7:-5]) == int(today[3:5]) and int(request[-10:-8]) >= int(today[:2])):
-                    write_msg(event.user_id, "Прошу прощения, я не вижу так далеко. Как говорится, близорукость не порок")
-                elif int(request[-4:]) < int(today[-4:]) or int(request[-4:]) == int(today[-4:]) and int(request[-7:-5]) < int(today[3:5]) or int(request[-4:]) == int(today[-4:]) and int(request[-7:-5]) == int(today[3:5]) and int(request[-10:-8]) < int(today[:2]):
-                    write_msg(event.user_id, "Я помню это чудное мгновенье. Но прошлого не вернёшь. Может, посмотришь что-нибудь на будущее?")
+                date = str(int(request[-10:-8]))
+                t = 0
+                if request[-4:] == '2019':
+                    theatre = requests.get('http://www.maly.ru/afisha')
+                elif request[-7:-5] == '01' and int(request[-10:-8]) <= 31:
+                    date += ' января'
+                    theatre = requests.get('https://www.maly.ru/afisha?month=1&year=2020')
+                elif request[-7:-5] == '02' and (int(request[-10:-8]) <= 28 and int(request[-4:]) % 4 != 0 or int(request[-10:-8]) <= 29 and int(request[-4:]) % 4 == 0):
+                    date += ' февраля'
+                    theatre = requests.get('https://www.maly.ru/afisha?month=2&year=2020')
+                elif request[-7:-5] == '03' and int(request[-10:-8]) <= 31:
+                    date += ' марта'
+                    theatre = requests.get('https://www.maly.ru/afisha?month=3&year=2020')
+                elif request[-7:-5] == '04' and int(request[-10:-8]) <= 30:
+                    date += ' апреля'
+                    theatre = requests.get('https://www.maly.ru/afisha?month=4&year=2020')
+                elif request[-7:-5] == '05' and int(request[-10:-8]) <= 31:
+                    date += ' мая'
+                    theatre = requests.get('https://www.maly.ru/afisha?month=5&year=2020')
+                elif request[-7:-5] == '06' and int(request[-10:-8]) <= 30:
+                    date += ' июня'
+                    theatre = requests.get('https://www.maly.ru/afisha?month=6&year=2020')
+                elif request[-7:-5] == '07' and int(request[-10:-8]) <= 31:
+                    date += ' июля'
+                    theatre = requests.get('https://www.maly.ru/afisha?month=7&year=2020')
+                elif request[-7:-5] == '08' and int(request[-10:-8]) <= 31:
+                    date += ' августа'
+                    theatre = requests.get('https://www.maly.ru/afisha?month=8&year=2020')
+                elif request[-7:-5] == '09' and int(request[-10:-8]) <= 30:
+                    date += ' сентября'
+                    theatre = requests.get('https://www.maly.ru/afisha?month=9&year=2020')
+                elif request[-7:-5] == '10' and int(request[-10:-8]) <= 31:
+                    date += ' октября'
+                    theatre = requests.get('https://www.maly.ru/afisha?month=10&year=2020')
+                elif request[-7:-5] == '11' and int(request[-10:-8]) <= 30:
+                    date += ' ноября'
+                    theatre = requests.get('https://www.maly.ru/afisha?month=11&year=2020')
+                elif request[-7:-5] == '12' and int(request[-10:-8]) <= 31:
+                    date += ' декабря'
+                    theatre = requests.get('https://www.maly.ru/afisha?month=12&year=2020')
                 else:
-                    date = str(int(request[-10:-8]))
-                    t = 0
-                    if request[-4:] == '2019':
-                        theatre = requests.get('http://www.maly.ru/afisha')
-                    elif request[-7:-5] == '01' and int(request[-10:-8]) <= 31:
-                        date += ' января'
-                        theatre = requests.get('https://www.maly.ru/afisha?month=1&year=2020')
-                    elif request[-7:-5] == '02' and (int(request[-10:-8]) <= 28 and int(request[-4:]) % 4 != 0 or int(request[-10:-8]) <= 29 and int(request[-4:]) % 4 == 0):
-                        date += ' февраля'
-                        theatre = requests.get('https://www.maly.ru/afisha?month=2&year=2020')
-                    elif request[-7:-5] == '03' and int(request[-10:-8]) <= 31:
-                        date += ' марта'
-                        theatre = requests.get('https://www.maly.ru/afisha?month=3&year=2020')
-                    elif request[-7:-5] == '04' and int(request[-10:-8]) <= 30:
-                        date += ' апреля'
-                        theatre = requests.get('https://www.maly.ru/afisha?month=4&year=2020')
-                    elif request[-7:-5] == '05' and int(request[-10:-8]) <= 31:
-                        date += ' мая'
-                        theatre = requests.get('https://www.maly.ru/afisha?month=5&year=2020')
-                    elif request[-7:-5] == '06' and int(request[-10:-8]) <= 30:
-                        date += ' июня'
-                        theatre = requests.get('https://www.maly.ru/afisha?month=6&year=2020')
-                    elif request[-7:-5] == '07' and int(request[-10:-8]) <= 31:
-                        date += ' июля'
-                        theatre = requests.get('https://www.maly.ru/afisha?month=7&year=2020')
-                    elif request[-7:-5] == '08' and int(request[-10:-8]) <= 31:
-                        date += ' августа'
-                        theatre = requests.get('https://www.maly.ru/afisha?month=8&year=2020')
-                    elif request[-7:-5] == '09' and int(request[-10:-8]) <= 30:
-                        date += ' сентября'
-                        theatre = requests.get('https://www.maly.ru/afisha?month=9&year=2020')
-                    elif request[-7:-5] == '10' and int(request[-10:-8]) <= 31:
-                        date += ' октября'
-                        theatre = requests.get('https://www.maly.ru/afisha?month=10&year=2020')
-                    elif request[-7:-5] == '11' and int(request[-10:-8]) <= 30:
-                        date += ' ноября'
-                        theatre = requests.get('https://www.maly.ru/afisha?month=11&year=2020')
-                    elif request[-7:-5] == '12' and int(request[-10:-8]) <= 31:
-                        date += ' декабря'
-                        theatre = requests.get('https://www.maly.ru/afisha?month=12&year=2020')
-                    else:
-                        t = 1
-                    if t == 1:
-                        write_msg(event.user_id, "То ли ты не то написал, то ли я не так поняла. Может, попробуем ещё раз?")
-                    else:
+                    t = 1
+                if t == 1:
+                    write_msg(event.user_id, "То ли ты не то написал, то ли я не так поняла. Может, попробуем ещё раз?")
+                else:
+                    if int(request[-4:]) > int(today[-4:]) and (int(request[-7:-5]) > int(today[3:5]) or int(request[-7:-5]) == int(today[3:5]) and int(request[-10:-8]) >= int(today[:2])):
+                        write_msg(event.user_id, "Прошу прощения, я не вижу так далеко. Как говорится, близорукость не порок")
+                    elif int(request[-4:]) < int(today[-4:]) or int(request[-4:]) == int(today[-4:]) and int(request[-7:-5]) < int(today[3:5]) or int(request[-4:]) == int(today[-4:]) and int(request[-7:-5]) == int(today[3:5]) and int(request[-10:-8]) < int(today[:2]):
+                        write_msg(event.user_id, "Я помню это чудное мгновенье. Но прошлого не вернёшь. Может, посмотришь что-нибудь на будущее?")
+                    else:    
                         k = BeautifulSoup(theatre.text, "html.parser")
                         k0 = k.select("div.poster-tables__item")
                         n = 0
