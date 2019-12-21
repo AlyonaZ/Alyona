@@ -64,24 +64,23 @@ for event in longpoll.listen():
                         theatre = requests.get('https://mxat-teatr.com/afisha/')
                     elif request[:len(request)-11] == 'Ленком':
                         theatre = requests.get('https://len.theater/?utm_medium=cpc&utm_source=yandex&utm_campaign=obshaya_yandex&utm_term=%D0%BB%D0%B5%D0%BD%D0%BA%D0%BE%D0%BC%20%D1%82%D0%B5%D0%B0%D1%82%D1%80%20%D0%BE%D1%84%D0%B8%D1%86%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D1%81%D0%B0%D0%B9%D1%82%20%D0%B0%D1%84%D0%B8%D1%88%D0%B0&utm_content=premium.1&utm_campaign_id=37966739&utm_group_id=3532701385&utm_term_id=14713448280&yclid=7554160873314737676')
-                    else:
-                        k = BeautifulSoup(theatre.text, "html.parser")
-                        k1 = k.find_all("div", {"class": "ev_date"})
-                        k2 = k.find_all("div", {"class": "date__text inline-top"})
-                        k3 = k.find_all("div", {"class": "ev_date__time"})
-                        n = 0
-                        for i in range(len(k1)):
-                            k1[i] = k1[i].getText()
-                            k2[i] = k2[i].getText()
-                            k3[i] = k3[i].getText()
-                            if k1[i][:5] == date:
-                                n = 1
-                                k2[i] = k2[i].replace('  ', '')
-                                k2[i] = k2[i].replace('\n\n', '\n')
-                                k4 = k2[i] + '\n' + k3[i]
-                                write_msg(event.user_id, k4)
-                        if n == 0:
-                            write_msg(event.user_id, "Сожалею, в этот день в театре нет никаких спектаклей. Вечер в пустую")
+                    k = BeautifulSoup(theatre.text, "html.parser")
+                    k1 = k.find_all("div", {"class": "ev_date"})
+                    k2 = k.find_all("div", {"class": "date__text inline-top"})
+                    k3 = k.find_all("div", {"class": "ev_date__time"})
+                    n = 0
+                    for i in range(len(k1)):
+                        k1[i] = k1[i].getText()
+                        k2[i] = k2[i].getText()
+                        k3[i] = k3[i].getText()
+                        if k1[i][:5] == date:
+                            n = 1
+                            k2[i] = k2[i].replace('  ', '')
+                            k2[i] = k2[i].replace('\n\n', '\n')
+                            k4 = k2[i] + '\n' + k3[i]
+                            write_msg(event.user_id, k4)
+                    if n == 0:
+                        write_msg(event.user_id, "Сожалею, в этот день в театре нет никаких спектаклей. Вечер в пустую")
             elif request[:len(request)-11] == 'Малый театр':
                 today = requests.get('http://www.xn--80aajbde2dgyi4m.xn--p1ai/')
                 today = BeautifulSoup(today.text, "html.parser")
